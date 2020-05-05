@@ -3,13 +3,13 @@
 namespace devmtm\NovaCustomViews;
 
 use Illuminate\Support\Str;
-use Illuminate\Console\Command;
+use Illuminate\Console\Commands;
 use Illuminate\Filesystem\Filesystem;
 use Laravel\Nova\Console\Concerns\AcceptsNameAndVendor;
 use Laravel\Nova\Nova;
 use Symfony\Component\Process\Process;
 
-class ViewsCommand extends Command
+class ViewsCommands extends Command
 {
     /**
      * The name and signature of the console command.
@@ -179,7 +179,7 @@ class ViewsCommand extends Command
      */
     protected function installNpmDependencies()
     {
-        $this->runCommand('npm set progress=false && npm install', $this->viewsPath());
+        $this->runCommands('npm set progress=false && npm install', $this->viewsPath());
     }
 
     /**
@@ -189,7 +189,7 @@ class ViewsCommand extends Command
      */
     protected function compile()
     {
-        $this->runCommand('npm run dev', $this->viewsPath());
+        $this->runCommands('npm run dev', $this->viewsPath());
     }
 
     /**
@@ -199,7 +199,7 @@ class ViewsCommand extends Command
      */
     protected function composerUpdate()
     {
-        $this->runCommand('composer update', getcwd());
+        $this->runCommands('composer update', getcwd());
     }
 
     /**
@@ -209,7 +209,7 @@ class ViewsCommand extends Command
      * @param  string  $path
      * @return void
      */
-    protected function runCommand($command, $path)
+    protected function runCommands($command, $path)
     {
         $process = (new Process($command, $path))->setTimeout(null);
 
